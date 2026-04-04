@@ -15,12 +15,23 @@ const app = express();
 
 // Middleware
 app.use(helmet());
+// app.use(
+//   cors({
+//     origin: process.env.CLIENT_URL,
+//     credentials: true,
+//   })
+// );
+
 app.use(
   cors({
-    origin: process.env.CLIENT_URL,
+    origin: [
+      'https://cura-link-med-web.vercel.app',
+      /https:\/\/cura-link-med-web.*\.vercel\.app$/
+    ],
     credentials: true,
   })
 );
+
 // Express json middleware
 app.use(express.json());
 
