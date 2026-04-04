@@ -24,7 +24,7 @@ const Login = () => {
     setError(null);
 
     try {
-      const response = await apiSend('/auth/login', 'POST', formData);
+      const response = await apiSend('/api/auth/login', 'POST', formData);
       
       if (response && response.token) {
         localStorage.setItem('token', response.token);

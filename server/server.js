@@ -43,11 +43,15 @@ const apiLimiter = rateLimit({
 });
 
 // Apply rate limiter to all /api routes
-app.use('/api/', apiLimiter);
+// app.use('/api/', apiLimiter);
 
 // Mount Routes
+// app.use('/api/auth', authRoutes);
+// app.use('/api/search', searchRoutes);
+
 app.use('/api/auth', authRoutes);
 app.use('/api/search', searchRoutes);
+app.use('/api/', apiLimiter);
 
 // MongoDB Connection and Server Start
 const PORT = process.env.PORT || 5000;

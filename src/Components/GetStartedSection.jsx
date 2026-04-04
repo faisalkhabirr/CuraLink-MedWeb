@@ -35,7 +35,8 @@ function GetStartedSection() {
     setUnifiedResult(null);
 
     try {
-      const response = await apiSend('/search', 'POST', { query: searchTerm });
+      const response = await apiSend('/api/search', 'POST', { query: searchTerm });
+
       const data = response.data;
 
       if (data && data.error === 'non_medical_query') {
