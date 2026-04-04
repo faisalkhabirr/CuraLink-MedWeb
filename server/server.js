@@ -42,15 +42,23 @@ app.use('/api/search', searchRoutes);
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 
+// mongoose
+//   .connect(MONGO_URI)
+//   .then(() => {
+//     console.log('MongoDB connected successfully');
+//     app.listen(PORT, () => {
+//       console.log(`Server running on port ${PORT}`);
+//     });
+//   })
+//   .catch((error) => {
+//     console.error('Error connecting to MongoDB:', error.message);
+//     process.exit(1);
+//   });
+
+
 mongoose
   .connect(MONGO_URI)
-  .then(() => {
-    console.log('MongoDB connected successfully');
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-    });
-  })
-  .catch((error) => {
-    console.error('Error connecting to MongoDB:', error.message);
-    process.exit(1);
-  });
+  .then(() => console.log('MongoDB connected successfully'))
+  .catch((error) => console.error('Error connecting to MongoDB:', error.message));
+
+export default app;
