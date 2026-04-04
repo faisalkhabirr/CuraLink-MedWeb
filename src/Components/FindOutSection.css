@@ -1,0 +1,189 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+
+/* --- Variables (Match your theme) --- */
+:root {
+  --color-primary-teal: #12b0a9;
+  --color-background-dark: #101010; 
+  --color-text-light: #e0e0e0;
+  --color-text-muted: #a0a0a0;
+  --color-input-bg: #1e1e1e; /* Darker background for components */
+  --color-card-border: #333333;
+  --color-shadow-primary: rgba(18, 176, 169, 0.4);
+}
+
+/* ==================================== */
+/* --- Main Container --- */
+/* ==================================== */
+
+.findOutSectionContainer {
+  /* background-color: var(--color-background-dark);  */
+  padding: 6rem 1rem;
+  font-family: 'Inter', sans-serif;
+}
+
+.findOutContentWrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  gap: 3rem;
+  align-items: center;
+}
+
+/* ==================================== */
+/* --- Text Block (Left Side) --- */
+/* ==================================== */
+.findOutTextBlock {
+  flex: 3;
+  max-width: 700px;
+}
+
+.findOutTitle {
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: #333333;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+.highlightTeal {
+  color: #24404b;
+}
+
+.findOutDescription {
+  font-size: 1.1rem;
+  /* color: var(--color-text-muted); */
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.findOutActions {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.btnPrimaryFindOut {
+  background-color: var(--color-primary-teal);
+  color: var(--color-background-dark); 
+  padding: 0.9rem 1.75rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.2s, transform 0.2s;
+  box-shadow: 0 4px 15px var(--color-shadow-primary);
+}
+
+.btnPrimaryFindOut:hover {
+  background-color: #0e8c85;
+  transform: translateY(-2px);
+  color: #cccccc;
+}
+
+.btnSecondaryFindOut {
+  background: none;
+  color: #101010;
+  border: 1px solid var(--color-primary-teal);
+  padding: 0.9rem 1.75rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.2s;
+}
+
+.btnSecondaryFindOut:hover {
+  background-color: #e0e0e0;
+  color: #0e8c85;
+}
+
+
+/* ==================================== */
+/* --- Highlight Box (Right Side) --- */
+/* ==================================== */
+.findOutHighlightBox {
+  flex: 1.5;
+  background-color: var(--color-input-bg);
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px solid var(--color-primary-teal);
+  box-shadow: 0 0 20px rgba(18, 176, 169, 0.1);
+  text-align: center;
+}
+
+.iconWrapper {
+  color: var(--color-primary-teal);
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.boxTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 0.5rem;
+}
+
+.boxSubtitle {
+  font-size: 1rem;
+  color: var(--color-text-muted);
+  margin-bottom: 1.5rem;
+}
+
+.boxButton {
+  display: block;
+  width: 100%;
+  background-color: white;
+  color: var(--color-background-dark);
+  padding: 0.8rem 1rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 700;
+  transition: background-color 0.2s;
+}
+
+.boxButton:hover {
+  background-color: #cccccc;
+}
+
+/* ==================================== */
+/* --- Responsiveness --- */
+/* ==================================== */
+@media (max-width: 992px) {
+  .findOutContentWrapper {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .findOutTextBlock {
+    max-width: 100%;
+    order: 2; 
+  }
+  
+  .findOutTitle {
+    font-size: 2.2rem;
+  }
+
+  .findOutActions {
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .findOutHighlightBox {
+    width: 100%;
+    order: 1; 
+    max-width: 450px;
+  }
+}
+
+@media (max-width: 600px) {
+    .findOutSectionContainer {
+        padding: 6rem 1rem;
+    }
+    .findOutActions {
+        flex-direction: column;
+    }
+    .btnPrimaryFindOut, .btnSecondaryFindOut {
+        width: 100%;
+        text-align: center;
+    }
+}

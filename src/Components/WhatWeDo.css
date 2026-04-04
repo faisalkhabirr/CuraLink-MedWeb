@@ -1,0 +1,222 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+
+:root {
+  --color-primary-teal: #12b0a9;
+  /* CuraLink Main Color */
+  --color-background-dark: #101010;
+  --color-background-light: #f4f6f8;
+  --color-text-light: #e0e0e0;
+  --color-text-dark: #333333;
+  --color-shadow-primary: rgba(18, 176, 169, 0.4);
+  --color-gray-muted: #6b7280;
+}
+
+/* =====================================================
+   DESKTOP: Side-by-side sticky layout (> 900px)
+   ===================================================== */
+.whatWeDoContainer {
+  display: flex;
+  min-height: 80vh;
+  font-family: 'Inter', sans-serif;
+  position: relative;
+  align-items: flex-start;
+  /* Critical: lets sticky work inside flex */
+}
+
+/* --- Left Column: sticky title panel --- */
+.leftColumn {
+  flex: 1;
+  color: var(--color-text-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem;
+  overflow: hidden;
+
+  position: sticky;
+  top: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  max-height: 100dvh;
+
+  /* Fade-in animation (desktop only) */
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1s ease, transform 1.2s ease;
+}
+
+.leftColumn.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.leftContent {
+  text-align: left;
+  max-width: 400px;
+  z-index: 10;
+  padding-right: 2rem;
+}
+
+.sectionTitle {
+  font-size: 4rem;
+  font-weight: 800;
+  line-height: 1;
+  color: #333333;
+  margin-bottom: 1rem;
+  text-shadow: 10px 10px 10px rgba(31, 51, 50, 0.61);
+}
+
+.sectionSubtitle {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #253d49;
+  text-shadow: 8px 10px 5px rgba(40, 49, 49, 0.363);
+}
+
+/* --- Right Column: naturally scrolling cards --- */
+.rightColumnScroll {
+  flex: 1;
+  border-radius: 50px;
+  padding: 4rem;
+}
+
+.rightColumnScroll::-webkit-scrollbar {
+  display: none;
+}
+
+.featureList {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* --- Feature Cards --- */
+.featureCard {
+  display: block;
+  background-color: white;
+  padding: 2rem;
+  border-radius: 12px;
+  text-decoration: none;
+  border-left: 5px solid var(--color-background-light);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: transform 0.3s ease, border-left 0.3s ease, box-shadow 0.3s ease;
+}
+
+.featureCard:hover,
+.featureCard:focus {
+  transform: translateY(-5px);
+  border-left: 5px solid var(--color-primary-teal);
+  box-shadow: 0 8px 20px var(--color-shadow-primary);
+}
+
+.cardIcon {
+  font-size: 2.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.cardTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text-dark);
+  margin-bottom: 0.5rem;
+}
+
+.cardDescription {
+  font-size: 1rem;
+  color: var(--color-gray-muted);
+  margin-bottom: 1rem;
+}
+
+.cardLink {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-primary-teal);
+  text-decoration: none;
+}
+
+/* =====================================================
+   TABLET: Stacked layout (≤ 900px)
+   No sticky — clean compact header then cards below
+   ===================================================== */
+@media (max-width: 900px) {
+  .whatWeDoContainer {
+    flex-direction: column;
+    min-height: unset;
+    align-items: stretch;
+  }
+
+  .leftColumn {
+    position: static !important;
+    min-height: unset !important;
+    max-height: unset !important;
+    height: auto;
+    padding: 4rem 2.5rem 2.5rem;
+    /* Kill ALL desktop animation so mobile never flickers or blinks */
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    will-change: auto !important;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .leftContent {
+    max-width: 100%;
+    text-align: center;
+    padding-right: 0;
+  }
+
+  .sectionTitle {
+    font-size: 2.8rem;
+    text-shadow: none;
+    color: #1f3d3b;
+  }
+
+  .sectionSubtitle {
+    font-size: 1.1rem;
+    color: #2c4f4e;
+    text-shadow: none;
+  }
+
+  .rightColumnScroll {
+    padding: 2.5rem 1.5rem 4rem;
+    border-radius: 24px 24px 0 0;
+    /* background-color: #f4f6f8; */
+  }
+
+  .featureList {
+    max-width: 100%;
+    gap: 1.5rem;
+  }
+}
+
+/* =====================================================
+   MOBILE: Tighter spacing (≤ 600px)
+   ===================================================== */
+@media (max-width: 600px) {
+  .leftColumn {
+    padding: 2.5rem 1.5rem 1.5rem;
+  }
+
+  .sectionTitle {
+    font-size: 2.2rem;
+  }
+
+  .rightColumnScroll {
+    padding: 1.5rem 1rem 3rem;
+    border-radius: 16px 16px 0 0;
+  }
+
+  .featureCard {
+    padding: 1.5rem;
+  }
+
+  #whatWeDoCT {
+    color: #101010;
+  }
+}

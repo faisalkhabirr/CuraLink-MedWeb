@@ -1,0 +1,281 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* --- Variables (ensure these match your global definitions) --- */
+:root {
+  --color-primary-teal: #12b0a9;
+  --color-background-dark: #101010; 
+  --color-text-light: #e0e0e0;
+  --color-text-muted: #a0a0a0;
+  --color-input-bg: #1e1e1e; /* Darker background for components */
+  --color-card-border: #333333;
+}
+
+
+.aboutSectionContainer {
+  position: relative;
+  /* padding: 2rem 1rem; */
+  font-family: 'Inter', sans-serif;
+
+  background-image: url('/HomePageBg3.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.aboutContentWrapper {
+    padding-top: 6%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ==================================== */
+/* --- Header / Mission Statement --- */
+/* ==================================== */
+
+.missionHeader {
+  text-align: center;
+  margin-bottom: 4rem;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.subHeading {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.aboutTitle {
+  font-size: 3rem;
+  font-weight: 800;
+  color: white;
+  line-height: 1.2;
+}
+
+.highlightTeal {
+  color: var(--color-primary-teal);
+}
+
+/* ==================================== */
+/* --- Core Content Layout --- */
+/* ==================================== */
+
+.coreContentLayout {
+  display: flex;
+  gap: 4rem;
+  align-items: flex-start;
+}
+
+/* --- Left Column: Narrative Text --- */
+.aboutTextColumn {
+  flex: 1.5; /* Slightly wider column for text */
+  /* color: #101010; */
+}
+
+.mainNarrative {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: var(--color-text-light);
+  margin-bottom: 1.5rem;
+}
+
+.secondaryNarrative {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+  margin-bottom: 2rem;
+}
+
+.btnTealSecondary {
+  display: inline-block;
+  color: var(--color-primary-teal);
+  background-color: var(--color-input-bg);
+  border: 1px solid var(--color-primary-teal);
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.btnTealSecondary:hover {
+  background-color: var(--color-primary-teal);
+  color: var(--color-background-dark); /* Dark text on teal hover */
+}
+
+/* --- Right Column: Fact Box/Visual --- */
+.aboutVisualColumn {
+  flex: 1;
+}
+
+.factBox {
+  background-color: var(--color-input-bg);
+  padding: 2rem;
+  border-radius: 10px;
+  border: 1px solid var(--color-card-border);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+
+  position: relative;
+  z-index: 2;
+}
+
+.factItem {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--color-card-border);
+  margin-bottom: 1rem;
+}
+
+.factItem:last-of-type {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.factNumber {
+  display: block;
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--color-primary-teal);
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
+
+.factLabel {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.visualPlaceholder {
+  height: 150px;
+  background-color: #2a2a2a;
+  border-radius: 8px;
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+  color: #555555;
+}
+
+
+/* ==================================== */
+/* --- Responsiveness --- */
+/* ==================================== */
+
+/* Tablets (Landscape) & Small Laptops */
+@media (max-width: 1200px) {
+
+    .aboutContentWrapper{
+        padding: 20% 5% 0 5%;
+    }
+
+  .aboutContentWrapper{
+    padding-top: 10%;
+  }
+
+  .coreContentLayout {
+    gap: 2.5rem;
+  }
+
+  .aboutTitle {
+    font-size: 2.6rem;
+  }
+
+  .mainNarrative {
+    font-size: 1.05rem;
+  }
+
+  .aboutVisualColumn {
+    flex: 1.2;
+  }
+
+  .factBox {
+    padding: 1.8rem;
+  }
+}
+
+@media (max-width: 900px) {
+
+      .aboutSectionContainer{
+        padding: 0;
+    }
+
+    .aboutContentWrapper{
+        padding: 20% 5% 0 5%;
+    }
+
+  .aboutTitle {
+    font-size: 2.2rem;
+  }
+  
+  .coreContentLayout {
+    flex-direction: column;
+    gap: 3rem;
+  }
+  
+  .aboutTextColumn {
+    flex: 1; /* Reset flex */
+    max-width: 100%;
+  }
+  
+  .aboutVisualColumn {
+    flex: 1; /* Reset flex */
+    width: 100%;
+    order: -1; /* Place the visual/fact box above the text on mobile */
+  }
+  
+  .factBox {
+    padding: 1.5rem;
+  }
+  
+  .visualPlaceholder {
+    height: 120px;
+  }
+
+  .secondaryNarrative{
+    color: #1e1e1e;
+  }
+
+}
+
+
+
+@media (max-width: 600px) {
+    .aboutSectionContainer{
+        padding: 0;
+    }
+
+    .aboutContentWrapper{
+        padding: 20% 5% 0 5%;
+    }
+    
+    .factNumber {
+        font-size: 2rem;
+    }
+    .factItem {
+        padding: 0.75rem 0;
+    }
+
+    .mainNarrative{
+      color: #1e1e1e;
+    }
+}
+
+@media (max-width: 400px) {
+
+
+    .aboutContentWrapper{
+        padding: 25% 5% 0 5%;
+    }
+    
+    .factNumber {
+        font-size: 2rem;
+    }
+    .factItem {
+        padding: 0.75rem 0;
+    }
+}

@@ -1,0 +1,129 @@
+.NavMblContainer {
+    display: none;
+}
+/* 
+@media (max-width: 610px) {
+    
+    .nav-links {
+        display: none;
+    }
+} */
+
+
+@media (max-width: 610px) {
+
+.NavMblContainer {
+    width: 100%;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+}
+
+.navbarMbl {
+    position: fixed;
+    top: 0; 
+    transition: transform 0.4s ease, opacity 0.3s ease;
+    margin-top: 20px;
+    background-color: #d1dae8;
+    border-radius: 50px;
+    width: 85%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    z-index: 1100;
+    box-shadow: 0 12px 15px rgba(0, 0, 0, 0.7);
+}
+
+.hide-navbar {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    text-decoration: none;  
+}
+
+.brand-name {
+    font-size: medium;
+    font-weight: 800;
+    letter-spacing: -1px;
+    color: #0b1129;
+}
+
+.menuBtn {
+    cursor: pointer;
+    font-size: larger;
+   color: #0b1129;
+}
+
+/* ==================================== */
+/* 🟢 MOBILE MENU DRAWER STYLES 🟢 */
+/* ==================================== */
+
+.mobile-menu-drawer {
+    position: fixed;
+    top: 0; 
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    min-height: -webkit-fill-available;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    background-color: #070b1ada;
+    backdrop-filter: blur(6px);
+    padding: 90px 30px 30px; 
+    transform: translateX(100%);
+    transition: transform 0.4s ease-in-out;
+    z-index: 999; 
+}
+
+.mobile-menu-drawer.is-open {
+    transform: translateX(0%);
+}
+.mobile-nav-links {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 50px;
+}
+
+.mobile-nav-links li {
+    /* border-bottom: 2px solid grey; */
+    margin: 30px 0;
+}
+
+.mobile-nav-links li a {
+    font-family: 'Space Mono', monospace; 
+    font-size: 2rem; 
+    font-weight: 400;
+    color: white; 
+    text-decoration: none;
+    display: block;
+    transition: opacity 0.2s;
+}
+
+.mobile-nav-links li a:hover {
+    opacity: 0.8;
+}
+
+.mobile-auth-buttons {
+    padding: 0;
+}
+
+.mobile-auth-buttons .btn-quote {
+    display: block;
+    background-color: white;
+    color: #0b1129;
+    padding: 12px;
+    text-align: center;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+    
+}

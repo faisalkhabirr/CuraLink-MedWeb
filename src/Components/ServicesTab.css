@@ -1,0 +1,179 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap");
+
+:root {
+  --color-primary: #12b0a9;
+  --color-bg: #101010;
+  --color-card-bg: #1e1e1e;
+  --color-text: #e0e0e0;
+  --color-muted: #a0a0a0;
+  --color-border: #333333;
+  background-image: 
+    linear-gradient(
+      180deg, 
+      rgba(18, 176, 168, 0.0), 
+      rgba(184, 207, 206, 0.0), 
+      rgba(81, 158, 158, 0.0), 
+      rgba(168, 177, 176, 0.0)
+    ), 
+    url('/HomePageBg3.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.servicesContainer {
+  font-family: "Inter", sans-serif;
+  padding: 6rem 2rem;
+  max-width: 100%;
+  margin: 0 auto;
+  color: var(--color-text);
+     position: relative;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  
+}
+
+
+.servicesHeader h2 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+  color: #101010;
+}
+
+.servicesHeader p {
+  font-size: 1.1rem;
+  color: #333333;
+  font-weight: 500;
+  margin-bottom: 2rem;
+}
+
+/* Search bar */
+.servicesSearch {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.servicesSearch input {
+  width: 100%;
+  max-width: 500px;
+  padding: 0.8rem 1rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  background-color: var(--color-card-bg);
+  color: var(--color-text);
+}
+
+.servicesSearch input::placeholder {
+  color: var(--color-muted);
+}
+
+/* Grid */
+.servicesGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+.serviceCard {
+  background-color: #00000073;
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid var(--color-border);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  
+}
+
+.serviceCard:hover,
+.serviceCard.active {
+  border-color: var(--color-primary);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(18, 176, 169, 0.2);
+}
+
+.cardIcon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.cardTitle {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #1e1e1e;
+}
+
+.cardDescription {
+  font-size: 0.95rem;
+  color: var(--color-muted);
+}
+
+/* No results text */
+.noResults {
+  grid-column: 1/-1;
+  text-align: center;
+  color: var(--color-muted);
+  font-style: italic;
+}
+
+/* Active service details */
+.serviceDetails {
+  margin-top: 2.5rem;
+  background-color: var(--color-card-bg);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid var(--color-border);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.serviceDetails h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.serviceDetails p {
+  font-size: 1rem;
+  color: var(--color-text);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .servicesGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .servicesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .servicesHeader h2 {
+    font-size: 2rem;
+    color: #333333;
+  }
+
+  .servicesHeader p {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+ .servicesHeader h2 {
+    font-size: 2rem;
+    color: #e6e6e6;
+  }
+ .servicesHeader p {
+    color: #a0a0a0;
+  }
+
+  .cardTitle {
+    color: #e0e0e0;
+  }
+}

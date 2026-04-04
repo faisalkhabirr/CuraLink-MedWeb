@@ -1,0 +1,156 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+    --color-background-dark: #101010; /* Dark background */
+    --color-text-light: #e0e0e0; /* Light gray text */
+    --color-text-muted: #a0a0a0; /* Muted text for secondary info */
+    --color-accent-teal: #12b0a9; /* CuraLink Mint/Teal */
+}
+
+.footerContainer {
+    background: linear-gradient(
+        to top,
+        #101010a8 0%,  /* Fully opaque at top */
+        rgba(16,16,16,0) 100% /* Transparent at bottom of fade */
+    );
+    color: #101010;
+    font-family: 'Inter', sans-serif;
+    padding: 2rem 1rem 1.5rem; /* Adjusted vertical padding */
+    position: relative;
+    z-index: 10;
+}
+
+.footerContentWrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative; 
+}
+
+/* --- Top Divider Line (Clones the top border) --- */
+.lineDividerTop {
+    position: absolute;
+    top: 0; 
+    left: 0;
+    width: 100%;
+    height: 1px;
+    /* Use a subtle gradient fade to match the aesthetic */
+    background: linear-gradient(to right, transparent 5%, var(--color-text-muted) 50%, transparent 95%);
+    /* Ensure it doesn't affect the scrollbar, but it shouldn't as it's a small height */
+}
+
+/* --- Follow Us & Contact --- */
+.followUsText {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.contactSection {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.contactEmail {
+    color: #253d49; 
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+.contactEmail:hover {
+    color: #048079;
+}
+
+.followUsText{
+    color: #253d49;
+    font-weight: 900;
+}
+
+/* --- Social Icons --- */
+.socialIcons {
+    display: flex;
+    gap: 1.75rem;
+    margin-bottom: 2rem;
+}
+
+.socialIconLink {
+    color: var(--color-text-light);
+    font-size: 1.3rem;
+    transition: color 0.2s;
+}
+
+.socialIconLink:hover {
+    color: var(--color-accent-teal);
+}
+
+/* --- Bottom Information Bar --- */
+.bottomBar {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    font-size: 0.8rem;
+    padding-top: 1rem;
+}
+
+.copyrightText, .builtByText {
+    margin: 0;
+    color: #101010;
+    font-weight: 600;
+}
+
+.builtByText span {
+    color: white; 
+}
+
+/* --- Side Brand Text (Vertical Text on Left) --- */
+.sideBrandText {
+    position: absolute;
+    left: 0; 
+    top: 50%;
+    /* Rotates the text 270 degrees (upwards) */
+    transform: rotate(270deg) translateY(-50%); 
+    transform-origin: 0 0;
+    font-size: 0.85rem;
+    font-weight: 400;
+    letter-spacing: 2px;
+    color: #444444; /* Very dark/muted color for background visibility */
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+/* ==================================== */
+/* RESPONSIVENESS (Mobile Layout) */
+/* ==================================== */
+
+@media (max-width: 768px) {
+    .footerContainer {
+        padding: 2rem 1rem 1rem;
+    }
+
+    .bottomBar {
+        /* Stack the copyright and built by info vertically */
+        flex-direction: column;
+        gap: 0.5rem;
+        padding-top: 0.5rem;
+        align-items: center;
+    }
+
+    .socialIcons {
+        gap: 1.25rem;
+    }
+
+    /* Hide the vertical text as it breaks the layout on small screens */
+    .sideBrandText {
+        display: none;
+    }
+}

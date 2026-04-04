@@ -1,0 +1,225 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* --- Variables (Match your theme) --- */
+:root {
+  --color-primary-teal: #12b0a9;
+  --color-background-dark: #101010; 
+  --color-text-light: #e0e0e0;
+  --color-text-muted: #a0a0a0;
+  --color-input-bg: #1e1e1e; /* Darker background for components */
+  --color-card-border: #333333;
+}
+
+.faqV2Container {
+  background-color: var(--color-background-dark);
+  padding: 6rem 1rem;
+  font-family: 'Inter', sans-serif;
+  color: var(--color-text-light);
+}
+
+.faqV2Wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.faqSectionTitle {
+  font-size: 3rem;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 3rem;
+  color: white;
+}
+
+/* ==================================== */
+/* --- Main Two-Column Layout --- */
+/* ==================================== */
+.faqContentLayout {
+  display: flex;
+  gap: 3rem;
+  align-items: flex-start; /* Keep columns aligned to the top */
+}
+
+/* --- Left Column: Category Filter --- */
+.faqCategoryColumn {
+  flex-shrink: 0; 
+  width: 250px;
+  padding: 1.5rem;
+  background-color: var(--color-input-bg);
+  border-radius: 10px;
+  border: 1px solid var(--color-card-border);
+  position: sticky; /* Sticky filter menu on desktop */
+  top: 2rem; /* Adjust based on your header height */
+}
+
+.categoryHeader {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-primary-teal);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-card-border);
+}
+
+.categoryList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.categoryButton {
+  background: none;
+  border: none;
+  text-align: left;
+  width: 100%;
+  padding: 0.75rem 0.5rem;
+  cursor: pointer;
+  font-size: 1rem;
+  color: var(--color-text-light);
+  font-weight: 500;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.categoryButton:hover {
+  background-color: rgba(18, 176, 169, 0.1);
+  color: white;
+}
+
+.categoryButton.active {
+  background-color: var(--color-primary-teal);
+  color: var(--color-background-dark);
+  font-weight: 600;
+  box-shadow: 0 4px 8px rgba(18, 176, 169, 0.2);
+}
+
+
+/* --- Right Column: Accordion Content --- */
+.faqAccordionColumn {
+  flex-grow: 1;
+}
+
+.currentCategoryTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--color-primary-teal);
+}
+
+.accordionItem {
+  margin-bottom: 1rem;
+  border: 1px solid var(--color-card-border);
+  border-radius: 8px;
+  background-color: var(--color-input-bg);
+  transition: border-color 0.3s ease;
+}
+
+.accordionItem.is-open {
+  border-color: var(--color-primary-teal);
+  box-shadow: 0 0 10px rgba(18, 176, 169, 0.1);
+}
+
+.accordionQuestion {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 1.25rem 1.5rem;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.toggleIcon {
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--color-primary-teal);
+  margin-left: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.accordionItem.is-open .toggleIcon {
+  transform: rotate(0deg); /* Explicitly keep it straight for the minus sign */
+}
+
+
+/* --- Answer Content Transition --- */
+.accordionAnswerContent {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out;
+}
+
+.accordionItem.is-open .accordionAnswerContent {
+  max-height: 500px; /* Sufficiently large height for content */
+  padding: 0 1.5rem 1.5rem 1.5rem;
+}
+
+.answerText {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+
+/* ==================================== */
+/* --- Responsiveness (Tablet & Mobile) --- */
+/* ==================================== */
+@media (max-width: 900px) {
+  .faqContentLayout {
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  .faqSectionTitle {
+    font-size: 2.5rem;
+  }
+
+  /* Remove sticky and make the filter menu full width */
+  .faqCategoryColumn {
+    width: 100%;
+    position: static;
+    top: auto;
+  }
+  
+  /* Make categories horizontal scroll list on smaller screens */
+  .categoryList {
+    display: flex;
+    overflow-x: auto;
+    gap: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+
+  /* Reset button width for horizontal list */
+  .categoryButton {
+    width: auto;
+    flex-shrink: 0;
+  }
+  
+  .categoryHeader {
+    text-align: center;
+    border: none;
+    padding: 0;
+  }
+}
+
+@media (max-width: 500px) {
+  .faqSectionTitle {
+    font-size: 2rem;
+  }
+  
+  .accordionQuestion {
+    font-size: 1rem;
+    padding: 1rem;
+  }
+  
+  .accordionItem.is-open .accordionAnswerContent {
+     padding: 0 1rem 1rem 1rem;
+  }
+}

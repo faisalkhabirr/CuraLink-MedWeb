@@ -1,0 +1,125 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+    --color-primary-teal: #12b0a9; /* CuraLink Main Color */
+    --color-text-dark: #1f2937;
+    --color-text-light-dark: #4b5563; /* Slightly lighter than main dark text */
+    --color-gray-border: #e5e7eb;
+}
+
+.faqSectionContainer {
+    font-family: 'Inter', sans-serif;
+    padding: 5rem 1rem;
+    max-width: 900px; /* Constrain width like the example image */
+    margin: 0 auto;
+}
+
+/* --- Title Styling --- */
+.faqTitle {
+    font-size: 2.5rem; /* Large title like the example */
+    font-weight: 600;
+    color: var(--color-text-dark);
+    text-align: left; /* Aligns left in the constrained container */
+    margin-bottom: 3rem;
+    padding-left: 0.5rem; /* Minor padding for visual balance */
+}
+
+/* --- List Container --- */
+.faqList {
+    width: 100%;
+}
+
+.faqItem {
+    padding-bottom: 0;
+    width: 100%;
+}
+
+/* --- Question Bar (The Clickable Row) --- */
+.faqQuestion {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    padding: 1.5rem 0.5rem; /* Padding for the entire question bar */
+}
+
+.questionText {
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: var(--color-text-light-dark); /* Slightly lighter color like the example */
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* --- Toggle Icon (+/- Circle) --- */
+.toggleIcon {
+    /* Clones the look of the blue circle icon from the example image */
+    width: 28px;
+    height: 28px;
+    border: 1px solid var(--color-text-light-dark); 
+    border-radius: 50%;
+    color: var(--color-primary-teal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 1.5rem;
+    flex-shrink: 0; /* Prevents icon from shrinking on long text */
+}
+
+.toggleIcon svg {
+    width: 18px;
+    height: 18px;
+    stroke-width: 2.5; /* Slightly thicker line for the icons */
+}
+
+/* --- Answer Content --- */
+.faqAnswerContent {
+    max-height: 0;
+    overflow: hidden;
+    padding: 0 0.5rem;
+    transition: max-height 0.5s ease, padding 0.5s ease;
+}
+
+.faqAnswerContent.active {
+    max-height: 500px; /* Make sure this fits your longest answer */
+    padding: 0 0.5rem 1.5rem 0.5rem;
+}
+
+.answerText {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--color-gray-muted); /* Muted gray text for the answer */
+    padding-right: 3rem; /* Push text away from the icon side */
+}
+
+/* --- Divider Line --- */
+.faqDivider {
+    border: 0;
+    height: 1px;
+    background-color: var(--color-gray-border); /* Light gray line */
+    margin: 0;
+}
+
+/* --- Responsiveness --- */
+@media (max-width: 600px) {
+    .faqSectionContainer {
+        padding: 3rem 1rem;
+    }
+
+    .faqTitle {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .faqQuestion {
+        padding: 1rem 0;
+    }
+
+    .questionText {
+        font-size: 1rem;
+    }
+
+    .answerText {
+        padding-right: 0; /* Use full width on small screens */
+    }
+}

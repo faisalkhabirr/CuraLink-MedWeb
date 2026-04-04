@@ -1,0 +1,293 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+
+/* --- Constants --- */
+:root {
+  --color-primary: #12b0a9; /* Mint/Teal color */
+  --color-text-dark: #1f2937; /* Dark text color */
+  --color-background-light: #f9fafb; /* Off-white background */
+  --color-gray-muted: #6b7280; /* Gray for description/footnotes */
+  --color-green-light: #d1fae5;
+}
+
+.heroSectionContainer {
+  padding: 5rem 1rem;
+  width: 100%;
+  font-family: 'Inter', sans-serif;
+}
+
+.heroContentWrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  gap: 4rem; /* Spacing between the left text and the right card */
+  align-items: flex-start; /* Align content to the top */
+}
+
+/* --- Left Column: Text and Buttons --- */
+
+.heroTextColumn {
+  flex: 1; /* Takes up available space */
+  max-width: 50%;
+}
+
+.statusPill {
+  display: inline-block;
+  background-color: #12b0a9;
+  color: #1f2937;
+  font-weight: 600;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px; /* Pill shape */
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+.heroTitle {
+  font-size: 3.2rem;
+  font-weight: 800; /* Extra bold */
+  color: var(--color-text-dark);
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+  transition: opacity 0.25s ease, transform 0.25s ease, background-color 0.25s ease;
+    opacity: 1;  /* slightly dim by default */
+}
+
+.heroTitle:hover{
+  transform: scale(1.03);
+  cursor: pointer;
+}
+
+.highlightText {
+  color: #12b0a9;
+}
+
+.heroDescription {
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: #1f2937;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.heroActions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+/* Primary Button (Mint/Teal) */
+.btnPrimary {
+  background-color: #253d49;
+  color: white;
+  padding: 0.85rem 1.75rem;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.25s ease; /* smooth animation */
+    display: inline-block; /* allows transform to work properly */
+  box-shadow: 0 4px 6px -1px rgba(20, 54, 53, 0.788);
+}
+
+.btnPrimary:hover {
+  background-color: #0b1129;
+  box-shadow: 0 10px 25px rgba(11, 17, 41, 0.356);
+  transform: translateX(2px); /* ⬅ move right */
+}
+
+.btnSecondary {
+  background: none;
+  color: var(--color-primary);
+  font-weight: 600;
+  text-decoration: none;
+  padding: 0.85rem 0;
+  transition: color 0.2s;
+}
+
+.btnSecondary:hover {
+  color: #0e8c85;
+}
+
+.heroFootnotes {
+  display: flex;
+  gap: 2rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #1f2937;
+}
+
+.footnoteItem:first-child {
+  /* Style for 'Not medical advice' pill */
+  border: 2px solid #1f2937;
+  padding: 0.3rem 0.6rem;
+  border-radius: 999px;
+  white-space: nowrap;
+  background-color: transparent;
+  box-shadow: 10px 10px 25px #1f2937; /* glow */
+  transition: box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+
+.heroCardColumn {
+  flex: 1; /* Takes up available space */
+  max-width: 50%;
+}
+
+.medicineSnapshotCard {
+  width: 100%;
+  /* Ensures the card maintains aspect ratio and scales */
+  padding-top: 92%; 
+  position: relative;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.cardImageWrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* Applying the background image of pills/medicine */
+  background-image: url('data:image/jpeg;base64,...'); /* Placeholder for your background image */
+  background-size: cover;
+  background-position: center;
+  filter: brightness(0.9); /* Slightly dim the background */
+}
+
+.cardOverlayContent {
+  /* Positioning and styling for the text overlay on the card */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.7); /* Light semi-transparent overlay */
+  /* This overlay is what creates the distinct left and right sections on the card */
+}
+
+.cardTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text-dark);
+  margin-bottom: 0.5rem;
+}
+
+.cardSubtitle {
+  font-size: 0.95rem;
+  color: var(--color-gray-muted);
+  margin-bottom: 2rem;
+}
+
+.keyChecks {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+  margin-bottom: 1rem;
+}
+
+.keyCheckGroup {
+  /* Style for the two columns within the card */
+  flex-basis: 50%;
+}
+
+.keyCheckLabel {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-gray-muted);
+  margin-bottom: 0.25rem;
+  text-transform: uppercase;
+}
+
+.keyCheckList {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-dark);
+}
+
+.cardFooterStatus {
+  font-size: 0.85rem;
+  color: var(--color-gray-muted);
+  display: flex;
+  align-items: center;
+}
+
+.statusDot {
+  width: 8px;
+  height: 8px;
+  background-color: var(--color-primary);
+  border-radius: 50%;
+  margin-right: 0.5rem;
+}
+
+/* ==================================== */
+/* RESPONSIVENESS (Mobile Layout) */
+/* ==================================== */
+
+@media (max-width: 992px) {
+  .heroSectionContainer {
+    padding: 4rem 1.5rem;
+  }
+  
+  .heroContentWrapper {
+    flex-direction: column; /* Stack columns vertically */
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .heroTextColumn,
+  .heroCardColumn {
+    max-width: 100%; /* Allow columns to take full width */
+    text-align: center; /* Center text on mobile */
+  }
+
+  .heroTitle {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .heroActions {
+    justify-content: center; /* Center buttons */
+    gap: 1rem;
+    flex-wrap: wrap; /* Wrap buttons if needed */
+  }
+  
+  .heroFootnotes {
+    flex-direction: column; /* Stack footnotes */
+    gap: 0.5rem;
+    text-align: center;
+    align-items: center;
+  }
+  
+  .footnoteItem:first-child {
+    /* Center the pill footnote */
+    margin: 0 auto; 
+  }
+  
+  /* Make the card slightly smaller on mobile */
+  .medicineSnapshotCard {
+    max-width: 400px;
+    padding-top: 100%;
+  }
+
+  .cardTitle {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 600px) {
+
+    .heroSectionContainer {
+        padding: 6rem 1.5rem;
+    }
+    .heroFootnotes {
+        flex-direction: column;
+        gap: 1.5rem;
+        text-align: center;
+        align-items: center;
+    }
+}
