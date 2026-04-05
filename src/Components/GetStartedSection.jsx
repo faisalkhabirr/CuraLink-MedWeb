@@ -280,7 +280,7 @@ function GetStartedSection() {
           </div>
         )}
 
-        {searchMode === "medicine" && (
+        {/* {searchMode === "medicine" && (
           <div className="quickLinks">
             <button
               className="quickLinkItem"
@@ -300,7 +300,7 @@ function GetStartedSection() {
               </button>
             )}
           </div>
-        )}
+        )} */}
 
         {showModal && (
           <div className="modalOverlay" onClick={() => setShowModal(false)}>
