@@ -6,12 +6,20 @@ import cors from 'cors';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import mongoose from 'mongoose';
+import crypto from 'node:crypto';
 
 // Import Routes
 import authRoutes from './routes/auth.js';
 import searchRoutes from './routes/search.js';
 
 const app = express();
+
+// Request-ID middleware (mounted before every other middleware/route)
+app.use((req, res, next) => {
+  req.id = crypto.randomUUID();
+  res.setHeader('X-Request-Id', req.id);
+  next();
+});
 
 // Middleware
 app.use(helmet());

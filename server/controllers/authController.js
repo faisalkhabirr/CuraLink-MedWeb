@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 import User from '../models/User.js';
 
 export const register = async (req, res) => {
-  console.log('Register body:', req.body);
+  console.log('register', req.id, req.baseUrl + req.path);
   try {
     const { name, email, password } = req.body;
 
