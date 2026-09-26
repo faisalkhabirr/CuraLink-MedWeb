@@ -4,7 +4,6 @@ dotenv.config();
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
-import rateLimit from 'express-rate-limit';
 import mongoose from 'mongoose';
 import crypto from 'node:crypto';
 
@@ -12,7 +11,16 @@ import crypto from 'node:crypto';
 import authRoutes from './routes/auth.js';
 import searchRoutes from './routes/search.js';
 
+// Rate limiters (Redis-backed when REDIS_URL is set, see ./config/rateLimit.js)
+import { authLimiter, searchLimiter } from './config/rateLimit.js';
+
 const app = express();
+
+// Trust exactly one proxy hop so req.ip - the rate limit key - is the real
+// client IP. Vercel always sets X-Forwarded-For, and express-rate-limit throws
+// ERR_ERL_UNEXPECTED_X_FORWARDED_FOR on every limited request while trust proxy
+// is false. Must stay a number: `true` is rejected as too permissive.
+app.set('trust proxy', 1);
 
 // Request-ID middleware (mounted before every other middleware/route)
 app.use((req, res, next) => {
@@ -43,23 +51,14 @@ app.use(
 // Express json middleware
 app.use(express.json());
 
-// Rate Limiter
-const apiLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 50,
-  message: 'Too many requests from this IP, please try again after 15 minutes',
-});
-
-// Apply rate limiter to all /api routes
-// app.use('/api/', apiLimiter);
+// Rate limiters - MUST be mounted before the routers they protect, otherwise
+// Express stops at the router and the limiters never run.
+app.use(['/api/auth/login', '/api/auth/register'], authLimiter);
+app.use('/api/search', searchLimiter);
 
 // Mount Routes
-// app.use('/api/auth', authRoutes);
-// app.use('/api/search', searchRoutes);
-
 app.use('/api/auth', authRoutes);
 app.use('/api/search', searchRoutes);
-app.use('/api/', apiLimiter);
 
 // MongoDB Connection and Server Start
 const PORT = process.env.PORT || 5000;
@@ -85,3 +84,8 @@ mongoose
   .catch((error) => console.error('Error connecting to MongoDB:', error.message));
 
 export default app;
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => {
+    console.log(`Server running locally on port ${PORT}`);
+  });
+}
