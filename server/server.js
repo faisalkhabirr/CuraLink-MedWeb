@@ -53,7 +53,7 @@ app.use(express.json());
 
 // Rate limiters - MUST be mounted before the routers they protect, otherwise
 // Express stops at the router and the limiters never run.
-app.use(['/api/auth/login', '/api/auth/register'], authLimiter);
+app.use(['/api/auth/login', '/api/auth/register', '/api/auth/change-password'], authLimiter);
 app.use('/api/search', searchLimiter);
 
 // Mount Routes
