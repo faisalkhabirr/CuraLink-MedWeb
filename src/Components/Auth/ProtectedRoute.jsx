@@ -16,7 +16,20 @@ const ProtectedRoute = ({ children }) => {
 
       try {
         // Ping the backend to verify the token is actually valid
-        await apiGet('/auth/me');
+        const user = await apiGet('/api/auth/me');
+
+        // Resolving the request is not proof of a session: require a real
+        // identity field (the JWT payload carries id + email) before letting
+        // the user in. `{}`, null, arrays or an HTML/error payload all fail here.
+        const hasIdentity =
+          user !== null &&
+          typeof user === 'object' &&
+          Boolean(user._id || user.id || user.email);
+
+        if (!hasIdentity) {
+          throw new Error('Session response did not contain a user identity');
+        }
+
         setIsAuthenticated(true);
       } catch (err) {
         // If the token is invalid or expired, clear it and redirect
