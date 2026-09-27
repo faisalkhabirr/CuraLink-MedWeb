@@ -19,10 +19,14 @@ import searchRoutes from './routes/search.js';
 import { authLimiter, searchLimiter } from './config/rateLimit.js';
 
 // --- Startup environment validation (zod) --------------------------------
-// Runs before mongoose.connect(), before app.listen() and before
-// `export default app`, so a misconfigured deployment stops here with one
-// fatal line instead of failing every request with 500s - or, worse, signing
-// JWTs with an empty/short secret.
+// Runs before mongoose.connect() and before `export default app`, so a
+// misconfigured deployment stops here with one fatal line instead of failing
+// every request with 500s - or, worse, signing JWTs with an empty/short
+// secret.
+//
+// This module only *builds* the Express app. It never calls app.listen():
+// Vercel imports it through api/index.js as a serverless function, and the
+// local listener lives in ./start.js.
 
 // A required env var: present, non-empty, not whitespace-only.
 const requiredEnv = (name) =>
@@ -130,32 +134,57 @@ app.get('/health', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/search', searchRoutes);
 
-// MongoDB Connection and Server Start
-const PORT = process.env.PORT || 5000;
+// --- 404 for unmatched /api routes ---------------------------------------
+// Registered after every router, so any /api path no route claimed is
+// answered here with JSON instead of Express's default HTML
+// "Cannot GET /api/...". Deliberately `'/api'` and not `'/api/*'`: Express 5
+// uses path-to-regexp v8, which rejects a bare '*'.
+// Non-/api paths fall through to Express's default handler.
+app.use('/api', (req, res) => {
+  res.status(404).json({ error: 'Not found', requestId: req.id });
+});
+
+// --- Central error handler (MUST be last in the chain) -------------------
+// Express only invokes 4-argument middleware when next(err) is called, a
+// handler throws, or (Express 5) an async handler's promise rejects. Every
+// unhandled error ends up here.
+//
+// Two rules: log everything, send nothing. The raw message and stack go to
+// pino only; the client always gets the same generic body, so an internal
+// detail (a Mongo error, a provider key, a file path) can never leak.
+app.use((err, req, res, next) => {
+  // req.id / req.log are set by the request-id middleware mounted first;
+  // generate a fresh id if the failure happened before that ran.
+  const requestId = req.id ?? crypto.randomUUID();
+  const log = req.log ?? logger.child({ reqId: requestId });
+
+  // pino's error level; `err` is the reserved key pino serialises into
+  // { type, message, stack }.
+  log.error({ err, reqId: requestId }, 'Unhandled error');
+
+  // Response already started - the body can no longer be rewritten, so hand
+  // it back to Express's default handler rather than corrupting the reply.
+  if (res.headersSent) return next(err);
+
+  // A 4xx (e.g. a malformed JSON body rejected by express.json()) is the
+  // caller's error: keep its status, but still never its raw message.
+  const status = err?.status ?? err?.statusCode;
+  const code = Number.isInteger(status) && status >= 400 && status < 600 ? status : 500;
+
+  res.status(code).json({ error: 'Something went wrong', requestId });
+});
+
+// MongoDB Connection
+// Kept here rather than in ./start.js: the Vercel entry point (api/index.js)
+// imports this module directly and nothing else, so the import itself has to
+// open the connection.
 const MONGO_URI = process.env.MONGO_URI;
-
-// mongoose
-//   .connect(MONGO_URI)
-//   .then(() => {
-//     logger.info('MongoDB connected successfully');
-//     app.listen(PORT, () => {
-//       logger.info({ port: PORT }, 'Server running');
-//     });
-//   })
-//   .catch((error) => {
-//     logger.error({ err: error }, 'Error connecting to MongoDB');
-//     process.exit(1);
-//   });
-
 
 mongoose
   .connect(MONGO_URI)
   .then(() => logger.info('MongoDB connected successfully'))
   .catch((error) => logger.error({ err: error }, 'Error connecting to MongoDB'));
 
+// The app is this module's only export. No app.listen() here - the local
+// listener is ./start.js, and on Vercel api/index.js exports the app itself.
 export default app;
-if (process.env.NODE_ENV !== 'production') {
-  app.listen(PORT, () => {
-    logger.info({ port: PORT }, 'Server running locally');
-  });
-}
