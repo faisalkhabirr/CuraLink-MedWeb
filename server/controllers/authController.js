@@ -26,7 +26,7 @@ const publicUser = (user) => ({
 });
 
 export const register = async (req, res) => {
-  console.log('register', req.id, req.baseUrl + req.path);
+  req.log.info({ method: req.method, path: req.baseUrl + req.path }, 'register');
   try {
     const { name, email, password } = req.body;
 
@@ -54,7 +54,7 @@ export const register = async (req, res) => {
 
     res.status(201).json({ token });
   } catch (error) {
-    console.error('Registration error:', error);
+    req.log.error(error, 'Registration error');
     res.status(500).json({ message: 'Server error during registration' });
   }
 };
@@ -82,7 +82,7 @@ export const login = async (req, res) => {
 
     res.status(200).json({ token });
   } catch (error) {
-    console.error('Login error:', error);
+    req.log.error(error, 'Login error');
     res.status(500).json({ message: 'Server error during login' });
   }
 };
@@ -98,7 +98,7 @@ export const getMe = async (req, res) => {
 
     return res.json(publicUser(user));
   } catch (error) {
-    console.error('Get current user error:', error);
+    req.log.error(error, 'Get current user error');
     return res.status(500).json({ message: 'Server error while loading the current user' });
   }
 };
@@ -137,7 +137,7 @@ export const changePassword = async (req, res) => {
 
     return res.status(200).json({ token });
   } catch (error) {
-    console.error('Change password error:', error);
+    req.log.error(error, 'Change password error');
     return res.status(500).json({ message: 'Server error during password change' });
   }
 };
@@ -157,7 +157,7 @@ export const logoutEverywhere = async (req, res) => {
 
     return res.json({ message: 'Signed out on all devices' });
   } catch (error) {
-    console.error('Logout everywhere error:', error);
+    req.log.error(error, 'Logout everywhere error');
     return res.status(500).json({ message: 'Server error while signing out' });
   }
 };

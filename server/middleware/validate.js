@@ -16,14 +16,16 @@ const validate = (schema) => (req, res, next) => {
     return next();
   }
 
-  console.warn('Request validation failed', {
-    requestId: req.id,
-    route: `${req.baseUrl}${req.path}`,
-    issues: result.error.issues.map((issue) => ({
-      path: issue.path.join('.'),
-      code: issue.code,
-    })),
-  });
+  req.log.warn(
+    {
+      route: `${req.baseUrl}${req.path}`,
+      issues: result.error.issues.map((issue) => ({
+        path: issue.path.join('.'),
+        code: issue.code,
+      })),
+    },
+    'Request validation failed'
+  );
 
   return res.status(400).json({ message: 'Invalid request data' });
 };

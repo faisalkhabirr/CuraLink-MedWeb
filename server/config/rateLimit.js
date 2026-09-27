@@ -17,6 +17,9 @@ dotenv.config();
 import rateLimit from 'express-rate-limit';
 import { RedisStore } from 'rate-limit-redis';
 import { createClient } from 'redis';
+// Shared pino instance. Neither log below is inside a request, so neither
+// carries a reqId - that is expected for these two (see ./logger.js).
+import logger from './logger.js';
 
 const WINDOW_MS = 15 * 60 * 1000; // 15 minutes
 const REDIS_URL = process.env.REDIS_URL;
@@ -34,13 +37,13 @@ if (REDIS_URL) {
   const reportError = (error) => {
     if (reportedError) return;
     reportedError = true;
-    console.error('[rate-limit] Redis error, rate limiting continues:', error.message);
+    logger.error({ err: error }, '[rate-limit] Redis error, rate limiting continues');
   };
   redisClient.on('error', reportError);
   redisClient.connect().catch(reportError);
 } else {
   // Module scope => emitted once per process / cold start, never per request.
-  console.warn(
+  logger.warn(
     '[rate-limit] REDIS_URL is not set - using the default in-memory store. ' +
       'Rate limiting is NOT distributed: every serverless instance keeps its own counters.'
   );

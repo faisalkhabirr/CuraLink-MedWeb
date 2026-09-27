@@ -101,11 +101,12 @@ if (!emergencyCheck.success) {
 
 // History write is best-effort: a failed insert must never turn a successful
 // search into a 500. Scoped to the requesting user, never shared.
-const recordHistory = async (userId, query, response) => {
+// `log` is the caller's req.log child, so this line keeps the request id too.
+const recordHistory = async (userId, query, response, log) => {
   try {
     await SearchHistory.create({ userId, query, response });
   } catch (error) {
-    console.error('Search history write error:', error?.message || error);
+    log.error(error, 'Search history write error');
   }
 };
 
@@ -117,10 +118,8 @@ export const medicalSearch = async (req, res) => {
     // 1. Emergency gate - FIRST, before cache and before Groq: we never spend
     //    an API call (or a stale cached answer) on a query we redirect anyway.
     if (matchEmergencyKeyword(normalizedQuery)) {
-      console.warn('Emergency keyword matched - redirecting without an AI call', {
-        requestId: req.id,
-      });
-      await recordHistory(req.user.id, normalizedQuery, EMERGENCY_RESPONSE);
+      req.log.warn('Emergency keyword matched - redirecting without an AI call');
+      await recordHistory(req.user.id, normalizedQuery, EMERGENCY_RESPONSE, req.log);
       return res.status(200).json({ source: 'emergency', data: EMERGENCY_RESPONSE });
     }
 
@@ -132,15 +131,15 @@ export const medicalSearch = async (req, res) => {
       if (cached.success) {
         // Still logged to *this* user's history so their own search shows up
         // in their history even when someone else warmed the cache first.
-        await recordHistory(req.user.id, normalizedQuery, cached.data);
+        await recordHistory(req.user.id, normalizedQuery, cached.data, req.log);
         return res.status(200).json({ source: 'cache', data: cached.data });
       }
       // Rows written before this schema existed (or by older code) must never
       // reach the frontend: treat them as a miss and regenerate.
-      console.warn('Cached response failed validation - regenerating', {
-        requestId: req.id,
-        issues: cached.error.issues.map((issue) => issue.path.join('.')),
-      });
+      req.log.warn(
+        { issues: cached.error.issues.map((issue) => issue.path.join('.')) },
+        'Cached response failed validation - regenerating'
+      );
     }
 
     // 3. Groq: one call, plus exactly one stricter retry if the shape is wrong.
@@ -162,7 +161,7 @@ export const medicalSearch = async (req, res) => {
       } catch (error) {
         if (isTimeoutError(error)) {
           // Clean timeout answer - not a generic 500, and no SDK internals.
-          console.warn('Groq request timed out', { requestId: req.id, attempt, timeoutMs });
+          req.log.warn({ attempt, timeoutMs }, 'Groq request timed out');
           return res.status(504).json({ message: TIMEOUT_MESSAGE });
         }
         // Real provider/network failures keep their existing handling below.
@@ -172,12 +171,14 @@ export const medicalSearch = async (req, res) => {
       const content = extractContent(completion);
       if (content === null) {
         // Malformed provider response (no/empty choices or content).
-        console.error('Groq returned a malformed completion', {
-          requestId: req.id,
-          attempt,
-          topKeys: Object.keys(completion ?? {}),
-          choiceCount: Array.isArray(completion?.choices) ? completion.choices.length : 'not-an-array',
-        });
+        req.log.error(
+          {
+            attempt,
+            topKeys: Object.keys(completion ?? {}),
+            choiceCount: Array.isArray(completion?.choices) ? completion.choices.length : 'not-an-array',
+          },
+          'Groq returned a malformed completion'
+        );
         return res.status(502).json({ message: BAD_GATEWAY_MESSAGE });
       }
 
@@ -194,12 +195,14 @@ export const medicalSearch = async (req, res) => {
         break;
       }
 
-      console.warn('AI response failed validation', {
-        requestId: req.id,
-        attempt,
-        notJson: candidate === null,
-        issues: validated ? validated.error.issues.map((issue) => issue.path.join('.')) : [],
-      });
+      req.log.warn(
+        {
+          attempt,
+          notJson: candidate === null,
+          issues: validated ? validated.error.issues.map((issue) => issue.path.join('.')) : [],
+        },
+        'AI response failed validation'
+      );
 
       if (attempt === MAX_ATTEMPTS) {
         // Second failure: generic 502, never the raw model output.
@@ -229,12 +232,12 @@ export const medicalSearch = async (req, res) => {
     );
 
     // 5. Separately: a per-user history row for the user who asked.
-    await recordHistory(req.user.id, normalizedQuery, parsedResponse);
+    await recordHistory(req.user.id, normalizedQuery, parsedResponse, req.log);
 
     return res.status(200).json({ source: 'ai', data: parsedResponse });
 
   } catch (error) {
-    console.error('Error in medicalSearch:', error?.message || error);
+    req.log.error(error, 'Error in medicalSearch');
     return res.status(500).json({ message: error?.message || 'Server error during search' });
   }
 };
@@ -252,7 +255,7 @@ export const getSearchHistory = async (req, res) => {
 
     return res.status(200).json(history);
   } catch (error) {
-    console.error('Error fetching search history:', error);
+    req.log.error(error, 'Error fetching search history');
     return res.status(500).json({ message: 'Server error fetching history' });
   }
 };
@@ -267,7 +270,7 @@ export const exportHistory = async (req, res) => {
 
     return res.status(200).json(records);
   } catch (error) {
-    console.error('Error exporting search history:', error);
+    req.log.error(error, 'Error exporting search history');
     return res.status(500).json({ message: 'Server error exporting search history' });
   }
 };
@@ -293,7 +296,7 @@ export const deleteHistoryItem = async (req, res) => {
 
     return res.json({ message: 'Search history entry deleted' });
   } catch (error) {
-    console.error('Error deleting search history entry:', error);
+    req.log.error(error, 'Error deleting search history entry');
     return res.status(500).json({ message: 'Server error deleting history entry' });
   }
 };
@@ -308,7 +311,7 @@ export const clearHistory = async (req, res) => {
       deletedCount: result.deletedCount,
     });
   } catch (error) {
-    console.error('Error clearing search history:', error);
+    req.log.error(error, 'Error clearing search history');
     return res.status(500).json({ message: 'Server error clearing history' });
   }
 };

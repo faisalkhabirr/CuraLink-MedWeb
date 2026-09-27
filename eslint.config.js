@@ -15,7 +15,6 @@ export default defineConfig([
     ],
     languageOptions: {
       ecmaVersion: 2020,
-      globals: globals.browser,
       parserOptions: {
         ecmaVersion: 'latest',
         ecmaFeatures: { jsx: true },
@@ -24,6 +23,26 @@ export default defineConfig([
     },
     rules: {
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
+    },
+  },
+  // Globals used to be `browser` for every .js/.jsx file, which left the
+  // Express API failing no-undef on `process`. They are now split per runtime.
+  // The React app runs in the browser...
+  {
+    files: ['src/**/*.{js,jsx}'],
+    languageOptions: {
+      globals: globals.browser,
+    },
+  },
+  // ...while the API (server/**), its Vercel entry point (api/**) and the
+  // root-level build config (eslint.config.js, vite.config.js - matched by
+  // *.js) run in Node and need node globals: process, Buffer, setImmediate,
+  // and so on. `no-undef` is what enforced the browser-only setup before;
+  // these files no longer see it.
+  {
+    files: ['server/**/*.js', 'api/**/*.js', '*.js'],
+    languageOptions: {
+      globals: globals.node,
     },
   },
 ])

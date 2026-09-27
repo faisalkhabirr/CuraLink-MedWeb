@@ -6,6 +6,10 @@ import cors from 'cors';
 import helmet from 'helmet';
 import mongoose from 'mongoose';
 import crypto from 'node:crypto';
+import { z } from 'zod';
+
+// pino instance - request-scoped children (req.log) are derived from it
+import logger from './config/logger.js';
 
 // Import Routes
 import authRoutes from './routes/auth.js';
@@ -13,6 +17,55 @@ import searchRoutes from './routes/search.js';
 
 // Rate limiters (Redis-backed when REDIS_URL is set, see ./config/rateLimit.js)
 import { authLimiter, searchLimiter } from './config/rateLimit.js';
+
+// --- Startup environment validation (zod) --------------------------------
+// Runs before mongoose.connect(), before app.listen() and before
+// `export default app`, so a misconfigured deployment stops here with one
+// fatal line instead of failing every request with 500s - or, worse, signing
+// JWTs with an empty/short secret.
+
+// A required env var: present, non-empty, not whitespace-only.
+const requiredEnv = (name) =>
+  z.string().refine((value) => value.trim().length > 0, {
+    message: `${name} is required and must not be empty`,
+  });
+
+const envSchema = z
+  .object({
+    MONGO_URI: requiredEnv('MONGO_URI'),
+    JWT_SECRET: requiredEnv('JWT_SECRET'),
+    GROQ_API_KEY: requiredEnv('GROQ_API_KEY'),
+  })
+  .superRefine((env, ctx) => {
+    // Length rule fires only when the presence rule above passed, so a
+    // missing/empty secret still produces exactly one message per key.
+    const secret = env.JWT_SECRET.trim();
+    if (secret.length === 0 || secret.length >= 32) return;
+    ctx.addIssue({
+      code: 'custom',
+      path: ['JWT_SECRET'],
+      message: `JWT_SECRET must be at least 32 characters (got ${secret.length})`,
+    });
+  });
+
+// `?? ''` maps "unset" onto "" so an absent var reports the clear message
+// above rather than Zod's generic "expected string, received undefined".
+const envResult = envSchema.safeParse({
+  MONGO_URI: process.env.MONGO_URI ?? '',
+  JWT_SECRET: process.env.JWT_SECRET ?? '',
+  GROQ_API_KEY: process.env.GROQ_API_KEY ?? '',
+});
+
+if (!envResult.success) {
+  const issues = envResult.error.issues.map(
+    (issue) => `${issue.path.join('.')}: ${issue.message}`
+  );
+  logger.fatal(
+    { issues },
+    'Environment validation failed - refusing to start (server/.env locally, project env vars on Vercel)'
+  );
+  process.exit(1);
+}
 
 const app = express();
 
@@ -25,6 +78,10 @@ app.set('trust proxy', 1);
 // Request-ID middleware (mounted before every other middleware/route)
 app.use((req, res, next) => {
   req.id = crypto.randomUUID();
+  // Child logger bound to that id: every line logged while handling this
+  // request carries reqId, so server logs can be joined to the X-Request-Id
+  // the caller received (see ./config/logger.js).
+  req.log = logger.child({ reqId: req.id });
   res.setHeader('X-Request-Id', req.id);
   next();
 });
@@ -56,6 +113,19 @@ app.use(express.json());
 app.use(['/api/auth/login', '/api/auth/register', '/api/auth/change-password'], authLimiter);
 app.use('/api/search', searchLimiter);
 
+// GET /health - readiness probe. 200 only while Mongo is actually connected
+// (readyState 1 === mongoose.ConnectionStates.connected); a cold start, a
+// failed connect or a dropped connection answers 503 so a load balancer or
+// uptime check can stop routing to this instance.
+app.get('/health', (req, res) => {
+  const connected = mongoose.connection.readyState === 1;
+  res.status(connected ? 200 : 503).json(
+    connected
+      ? { status: 'ok' }
+      : { status: 'unavailable', readyState: mongoose.connection.readyState }
+  );
+});
+
 // Mount Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/search', searchRoutes);
@@ -67,25 +137,25 @@ const MONGO_URI = process.env.MONGO_URI;
 // mongoose
 //   .connect(MONGO_URI)
 //   .then(() => {
-//     console.log('MongoDB connected successfully');
+//     logger.info('MongoDB connected successfully');
 //     app.listen(PORT, () => {
-//       console.log(`Server running on port ${PORT}`);
+//       logger.info({ port: PORT }, 'Server running');
 //     });
 //   })
 //   .catch((error) => {
-//     console.error('Error connecting to MongoDB:', error.message);
+//     logger.error({ err: error }, 'Error connecting to MongoDB');
 //     process.exit(1);
 //   });
 
 
 mongoose
   .connect(MONGO_URI)
-  .then(() => console.log('MongoDB connected successfully'))
-  .catch((error) => console.error('Error connecting to MongoDB:', error.message));
+  .then(() => logger.info('MongoDB connected successfully'))
+  .catch((error) => logger.error({ err: error }, 'Error connecting to MongoDB'));
 
 export default app;
 if (process.env.NODE_ENV !== 'production') {
   app.listen(PORT, () => {
-    console.log(`Server running locally on port ${PORT}`);
+    logger.info({ port: PORT }, 'Server running locally');
   });
 }
