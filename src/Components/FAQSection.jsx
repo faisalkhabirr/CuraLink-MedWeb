@@ -6,7 +6,7 @@ const faqData = [
   {
     question: "What makes CuraLink different from searching on Google?",
     answer:
-      "CuraLink translates complex pharmaceutical literature into simple, clear language. Our content focuses on practical usage, common side effects, and clear warnings, providing curated, reliable information without requiring you to sift through medical journals or sponsored results.",
+      "CuraLink translates complex medication information into simple, clear language. Each answer focuses on practical usage, common side effects, and clear warnings, giving you an AI-assisted summary instead of something you have to dig for across medical journals and sponsored results.",
   },
   {
     question: "Is the information provided by CuraLink medical advice?",
@@ -14,9 +14,9 @@ const faqData = [
       "No. CuraLink provides educational and informational content. It is NOT a substitute for professional medical advice, diagnosis, or treatment. Always consult with your doctor, pharmacist, or another qualified healthcare provider before making any health decisions.",
   },
   {
-    question: "How do you ensure the accuracy of drug information?",
+    question: "How is the information produced, and has a pharmacist reviewed it?",
     answer:
-      "Our information is sourced from reputable pharmaceutical databases and regulatory bodies (like the FDA). The content is then simplified and reviewed by a team including medical writers and pharmacists to maintain accuracy and clarity.",
+      "CuraLink uses an AI model to turn general medication information into plain language. The answers are not pulled from a regulatory database (such as the FDA) and have not been reviewed by pharmacists or medical writers. Treat it as AI-assisted, educational information - never a substitute for professional medical advice, diagnosis, or treatment - and confirm anything important with your doctor or pharmacist.",
   },
   {
     question:

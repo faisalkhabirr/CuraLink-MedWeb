@@ -16,12 +16,12 @@ function FindOutSection() {
             Ready to Dive Deeper into <span className="highlightTeal">Medication Clarity?</span>
           </h2>
           <p className="findOutDescription">
-            We believe true empowerment comes from complete understanding. Explore our full methodology report to see the technical details of how we source, verify, and simplify over 4,900 medications.
+            We believe true empowerment comes from complete understanding. Search any medication or symptom to see how CuraLink explains what it is, how to take it, its side effects, and its warnings in plain language - AI-assisted information, not a substitute for professional medical advice.
           </p>
-          
+
           <div className="findOutActions">
-            <Link to="/find" className="btnPrimaryFindOut">
-              Download Full Report (PDF)
+            <Link to="/get-started" className="btnPrimaryFindOut">
+              Search a Medication
             </Link>
             <Link to="/services" className="btnSecondaryFindOut">
               View All Services
@@ -35,9 +35,9 @@ function FindOutSection() {
             {/* Using a solid-style icon for professional look (requires Font Awesome) */}
             <i className="fa-solid fa-square-check"></i>
           </div>
-          <p className="boxTitle">Trusted by 5,000+ Users</p>
+          <p className="boxTitle">Understand Your Medication</p>
           <p className="boxSubtitle">
-            Start searching your medications and get personalized safety checks immediately.
+            Search any medication for AI-assisted, plain-language information on how to take it, side effects, and warnings.
           </p>
           <Link to="/get-started" className="boxButton">
             Get Started Free →
