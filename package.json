@@ -24,9 +24,12 @@
     "mongoose": "^9.4.1",
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0",
+    "rate-limit-redis": "^6.0.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "react-router-dom": "^7.10.1"
+    "react-router-dom": "^7.10.1",
+    "redis": "^6.2.1",
+    "zod": "^4.6.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
