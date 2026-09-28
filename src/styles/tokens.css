@@ -31,6 +31,9 @@
   --color-card-border: #333333;
   --color-shadow-primary: rgba(18, 176, 169, 0.4); /* FindOutSection, WhatWeDo */
 
+  /* Background photo overlay */
+  --bg-overlay-strength: 0.4; /* single control for the dark scrim behind HomePageBg3.jpg/.Mbl.jpg across every page that uses it - AboutSection, HomePage, ServicesTab. Raise for more contrast. */
+
   /* Text */
   --color-text-light: #e0e0e0;
   --color-text-muted: #a0a0a0;

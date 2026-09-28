@@ -7,7 +7,7 @@
   /* padding: 2rem 1rem; */
   font-family: 'Inter', sans-serif;
 
-  background-image: url('/HomePageBg3.jpg');
+  background-image: linear-gradient(rgba(0,0,0,var(--bg-overlay-strength)), rgba(0,0,0,var(--bg-overlay-strength))), url('/HomePageBg3.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
