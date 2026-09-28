@@ -1,0 +1,24 @@
+/*
+ * Background-height fix for the Login route — the same pattern as
+ * GetStartedSection.css.
+ *
+ * The login card is much shorter than the viewport, so #root/html collapsed to
+ * the card's height and the shared page background on :root (ServicesTab.css:
+ * background-size: cover, background-position: center, background-repeat:
+ * no-repeat) was sized against that short box: the photo stopped part-way down
+ * the window and the browser's default white canvas showed through below it.
+ * Growing #root to the viewport lets the image cover the whole canvas. The
+ * :has() scoping keeps the rule off every other route.
+ *
+ * The second half of the GetStarted fix (#root:has(...) > .getStartedContainer
+ * { flex: 1 0 auto }) is deliberately not copied: there it exists to pin the
+ * footer below the section, whereas Login renders a single element and growing
+ * it would stretch the bordered card box to full viewport height. The
+ * min-height on #root alone is what fixes the background.
+ */
+#root:has(.loginContainer) {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
