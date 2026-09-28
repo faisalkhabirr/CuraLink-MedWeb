@@ -36,7 +36,11 @@ export const register = async (req, res) => {
 
     const userExists = await User.findOne({ email });
     if (userExists) {
-      return res.status(400).json({ message: 'User already exists' });
+      // Deliberately generic: an explicit "user exists" answer lets anyone
+      // probe which emails have accounts (registration becomes an email
+      // oracle, exactly the leak login avoids with "Invalid credentials").
+      // The client can only tell that registration did not succeed.
+      return res.status(400).json({ message: 'Registration could not be completed' });
     }
 
     const salt = await bcrypt.genSalt(10);
