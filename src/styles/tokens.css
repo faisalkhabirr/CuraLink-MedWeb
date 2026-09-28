@@ -1,0 +1,42 @@
+/*
+ * CuraLink design tokens — the single shared :root block.
+ *
+ * Imported exactly once from src/App.jsx, before any component stylesheet.
+ * Every custom property below used to be re-declared in several
+ * src/Components/*.css files; declaring them here once removes the duplicates
+ * and makes the values independent of stylesheet load order (which used to be
+ * decided by whichever component bundle happened to load last).
+ *
+ * The values are the ones that actually won the cascade before this pass, so
+ * the rendered output is unchanged — see the notes on the two properties that
+ * were declared with conflicting values.
+ *
+ * Custom properties that only ever appeared in one component stylesheet
+ * (e.g. --color-accent-teal in Footer.css) intentionally stay with it.
+ */
+
+:root {
+  /* Brand */
+  --color-primary: #12b0a9; /* HeroSection.css, ServicesTab.css */
+  --color-primary-teal: #12b0a9; /* AboutSection, FAQSection, FAQSectionV2,
+                                    FindOutSection, GetStartedSection (x2),
+                                    WhatWeDo */
+
+  /* Surfaces */
+  --color-background-dark: #101010;
+  /* #f9fafb in HeroSection.css vs #f4f6f8 in WhatWeDo.css: WhatWeDo.css came
+     last in the bundle, so #f4f6f8 was the effective value. */
+  --color-background-light: #f4f6f8;
+  --color-input-bg: #1e1e1e;
+  --color-card-border: #333333;
+  --color-shadow-primary: rgba(18, 176, 169, 0.4); /* FindOutSection, WhatWeDo */
+
+  /* Text */
+  --color-text-light: #e0e0e0;
+  --color-text-muted: #a0a0a0;
+  /* #1f2937 in HeroSection.css and FAQSection.css vs #333333 in
+     WhatWeDo.css: FAQSection.css came last, so #1f2937 was the effective
+     value everywhere (including inside WhatWeDo). */
+  --color-text-dark: #1f2937;
+  --color-gray-muted: #6b7280; /* HeroSection, WhatWeDo */
+}

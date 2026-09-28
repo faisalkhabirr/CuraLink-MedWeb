@@ -1,11 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
 
 /* --- Constants --- */
+/* Shared tokens live in src/styles/tokens.css; only file-local ones here. */
 :root {
-  --color-primary: #12b0a9; /* Mint/Teal color */
-  --color-text-dark: #1f2937; /* Dark text color */
-  --color-background-light: #f9fafb; /* Off-white background */
-  --color-gray-muted: #6b7280; /* Gray for description/footnotes */
   --color-green-light: #d1fae5;
 }
 

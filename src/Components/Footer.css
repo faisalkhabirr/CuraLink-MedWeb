@@ -1,9 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
-    --color-background-dark: #101010; /* Dark background */
-    --color-text-light: #e0e0e0; /* Light gray text */
-    --color-text-muted: #a0a0a0; /* Muted text for secondary info */
     --color-accent-teal: #12b0a9; /* CuraLink Mint/Teal */
 }
 

@@ -1,15 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
 
-/* --- Variables (Match your theme) --- */
-:root {
-  --color-primary-teal: #12b0a9;
-  --color-background-dark: #101010; 
-  --color-text-light: #e0e0e0;
-  --color-text-muted: #a0a0a0;
-  --color-input-bg: #1e1e1e; /* Darker background for components */
-  --color-card-border: #333333;
-  --color-shadow-primary: rgba(18, 176, 169, 0.4);
-}
+/* Shared tokens live in src/styles/tokens.css */
 
 /* ==================================== */
 /* --- Main Container --- */

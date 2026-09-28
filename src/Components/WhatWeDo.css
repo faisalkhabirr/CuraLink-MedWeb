@@ -1,15 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
 
-:root {
-  --color-primary-teal: #12b0a9;
-  /* CuraLink Main Color */
-  --color-background-dark: #101010;
-  --color-background-light: #f4f6f8;
-  --color-text-light: #e0e0e0;
-  --color-text-dark: #333333;
-  --color-shadow-primary: rgba(18, 176, 169, 0.4);
-  --color-gray-muted: #6b7280;
-}
+/* Shared tokens live in src/styles/tokens.css */
 
 /* =====================================================
    DESKTOP: Side-by-side sticky layout (> 900px)

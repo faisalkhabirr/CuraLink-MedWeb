@@ -1,8 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
-    --color-primary-teal: #12b0a9; /* CuraLink Main Color */
-    --color-text-dark: #1f2937;
     --color-text-light-dark: #4b5563; /* Slightly lighter than main dark text */
     --color-gray-border: #e5e7eb;
 }
