@@ -77,7 +77,7 @@
 .secondaryNarrative {
   font-size: 1rem;
   line-height: 1.6;
-  color: var(--color-text-muted);
+  color: #e4ecef;
   margin-bottom: 2rem;
 }
 
@@ -178,6 +178,7 @@
 
   .mainNarrative {
     font-size: 1.05rem;
+    color: #e4ecef;
   }
 
   .aboutVisualColumn {
@@ -227,9 +228,13 @@
     height: 120px;
   }
 
-  .secondaryNarrative{
-    color: #1e1e1e;
-  }
+.mainNarrative {
+  color: #e4ecef;
+}
+
+.secondaryNarrative {
+  color: #e4ecef;
+}
 
 }
 
@@ -251,9 +256,9 @@
         padding: 0.75rem 0;
     }
 
-    .mainNarrative{
-      color: #1e1e1e;
-    }
+  .mainNarrative {
+  color: #e4ecef;
+}
 }
 
 @media (max-width: 400px) {
