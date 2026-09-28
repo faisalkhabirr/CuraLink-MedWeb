@@ -11,6 +11,30 @@
   text-align: center;
 }
 
+/*
+ * Sticky footer for this route.
+ *
+ * nav + this section + the footer are shorter than the viewport, so #root/html
+ * ended at the footer while the window kept going. The shared page background
+ * on :root (ServicesTab.css: background-size: cover, background-position: center,
+ * background-repeat: no-repeat) is sized against that short html box, and a
+ * portrait image centred on it spills a few hundred px past the footer before it
+ * stops — below that, no element paints anything, so the browser's default white
+ * canvas shows through. Growing #root to the viewport pins the footer to the
+ * bottom and lets the image cover the whole canvas. :has() keeps both rules off
+ * every other route.
+ */
+#root:has(.getStartedContainer) {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+#root:has(.getStartedContainer) > .getStartedContainer {
+  flex: 1 0 auto;
+}
+
 .getStartedWrapper {
   max-width: 900px;
   margin: 0 auto;
