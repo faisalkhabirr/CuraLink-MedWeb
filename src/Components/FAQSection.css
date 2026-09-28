@@ -44,7 +44,7 @@
 .questionText {
     font-size: 1.15rem;
     font-weight: 500;
-    color: var(--color-text-light-dark); /* Slightly lighter color like the example */
+    color: #011921; /* Slightly lighter color like the example */
     margin: 0;
     line-height: 1.5;
 }
